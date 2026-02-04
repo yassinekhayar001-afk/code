@@ -1,0 +1,121 @@
+<Window x:Class="BloodBankApp.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:BloodBankApp.ViewModels"
+        mc:Ignorable="d"
+        Title="Centre de Transfusion - Banque de Sang" Height="820" Width="1280"
+        WindowStartupLocation="CenterScreen">
+  <Window.DataContext>
+    <vm:MainViewModel />
+  </Window.DataContext>
+
+  <Grid Background="#F4F6F9">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
+
+    <Border Background="#0B5CAD" Padding="20" CornerRadius="0,0,12,12">
+      <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+        <TextBlock Text="Banque de Sang - Centre de Transfusion" Foreground="White" FontSize="24" FontWeight="Bold" />
+        <TextBlock Text="  |  Utilisateur: " Foreground="White" Margin="24,0,0,0" />
+        <TextBlock Text="{Binding UtilisateurConnecte.NomComplet}" Foreground="White" FontWeight="SemiBold" />
+      </StackPanel>
+    </Border>
+
+    <TabControl Grid.Row="1" Margin="20" Background="White" Padding="8">
+      <TabItem Header="Donneurs">
+        <Grid Margin="12">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="3*" />
+          </Grid.ColumnDefinitions>
+
+          <StackPanel Grid.Column="0" Margin="0,0,16,0">
+            <TextBlock Text="Enregistrement du donneur" FontWeight="Bold" FontSize="16" Margin="0,0,0,12" />
+            <TextBlock Text="Nom complet" FontWeight="SemiBold" />
+            <TextBox Margin="0,4,0,8" Text="{Binding NouveauDonneur.NomComplet, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBlock Text="CIN" FontWeight="SemiBold" />
+            <TextBox Margin="0,4,0,8" Text="{Binding NouveauDonneur.Cin, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBlock Text="Date de naissance" FontWeight="SemiBold" />
+            <DatePicker Margin="0,4,0,8" SelectedDate="{Binding NouveauDonneur.DateNaissance}" />
+            <TextBlock Text="Sexe" FontWeight="SemiBold" />
+            <ComboBox Margin="0,4,0,8" ItemsSource="{Binding Sexes}" SelectedItem="{Binding NouveauDonneur.Sexe}" />
+            <TextBlock Text="Groupe sanguin" FontWeight="SemiBold" />
+            <ComboBox Margin="0,4,0,8" ItemsSource="{Binding GroupesSanguins}" SelectedItem="{Binding NouveauDonneur.GroupeSanguin}" />
+            <TextBlock Text="Notes médicales" FontWeight="SemiBold" />
+            <TextBox Margin="0,4,0,8" Text="{Binding NouveauDonneur.NotesMedicales, UpdateSourceTrigger=PropertyChanged}" AcceptsReturn="True" Height="80" />
+            <Button Content="Enregistrer" Command="{Binding AjouterDonneurCommand}" Height="36" />
+          </StackPanel>
+
+          <StackPanel Grid.Column="1">
+            <TextBlock Text="Liste des donneurs" FontWeight="Bold" FontSize="16" Margin="0,0,0,12" />
+            <DataGrid ItemsSource="{Binding Donneurs}" AutoGenerateColumns="False" CanUserAddRows="False" Height="500">
+              <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Binding="{Binding IdentifiantDonneur}" Width="120" />
+                <DataGridTextColumn Header="Nom" Binding="{Binding NomComplet}" Width="*" />
+                <DataGridTextColumn Header="CIN" Binding="{Binding Cin}" Width="120" />
+                <DataGridTextColumn Header="Groupe" Binding="{Binding GroupeSanguin}" Width="120" />
+                <DataGridTextColumn Header="Statut" Binding="{Binding StatutAptitude}" Width="150" />
+              </DataGrid.Columns>
+            </DataGrid>
+          </StackPanel>
+        </Grid>
+      </TabItem>
+
+      <TabItem Header="Collectes">
+        <StackPanel Margin="16">
+          <TextBlock Text="Collecte de sang" FontWeight="Bold" FontSize="16" />
+          <TextBlock Text="Créer une collecte et générer un code-barres pour la poche." Margin="0,8,0,0" />
+          <Button Content="Générer une nouvelle collecte" Command="{Binding GenererCollecteCommand}" Width="260" Height="36" Margin="0,12,0,0" />
+          <TextBlock Text="{Binding CollecteSelectionneeResume}" Margin="0,12,0,0" />
+        </StackPanel>
+      </TabItem>
+
+      <TabItem Header="Analyses">
+        <StackPanel Margin="16">
+          <TextBlock Text="Sérologie et dépistage" FontWeight="Bold" FontSize="16" />
+          <TextBlock Text="Suivi des tests VIH, VHB, VHC, Syphilis et confirmation du groupe." Margin="0,8,0,0" />
+        </StackPanel>
+      </TabItem>
+
+      <TabItem Header="Stock">
+        <StackPanel Margin="16">
+          <TextBlock Text="Stock disponible" FontWeight="Bold" FontSize="16" />
+          <DataGrid ItemsSource="{Binding Stock}" AutoGenerateColumns="False" CanUserAddRows="False" Height="420">
+            <DataGrid.Columns>
+              <DataGridTextColumn Header="Composant" Binding="{Binding TypeComposant}" Width="*" />
+              <DataGridTextColumn Header="Groupe" Binding="{Binding GroupeSanguin}" Width="120" />
+              <DataGridTextColumn Header="Quantité" Binding="{Binding Quantite}" Width="120" />
+              <DataGridTextColumn Header="Seuil" Binding="{Binding SeuilAlerte}" Width="120" />
+              <DataGridTextColumn Header="Statut" Binding="{Binding StatutStock}" Width="140" />
+            </DataGrid.Columns>
+          </DataGrid>
+        </StackPanel>
+      </TabItem>
+
+      <TabItem Header="Distribution">
+        <StackPanel Margin="16">
+          <TextBlock Text="Distribution aux hôpitaux" FontWeight="Bold" FontSize="16" />
+          <TextBlock Text="Traçabilité complète du donneur au receveur." Margin="0,8,0,0" />
+        </StackPanel>
+      </TabItem>
+
+      <TabItem Header="Qualité">
+        <StackPanel Margin="16">
+          <TextBlock Text="Hémovigilance et incidents" FontWeight="Bold" FontSize="16" />
+          <TextBlock Text="Journalisation, audits et réactions indésirables." Margin="0,8,0,0" />
+        </StackPanel>
+      </TabItem>
+
+      <TabItem Header="Administration">
+        <StackPanel Margin="16">
+          <TextBlock Text="Utilisateurs et sécurité" FontWeight="Bold" FontSize="16" />
+          <TextBlock Text="Gestion des rôles, permissions et sauvegardes." Margin="0,8,0,0" />
+        </StackPanel>
+      </TabItem>
+    </TabControl>
+  </Grid>
+</Window>
