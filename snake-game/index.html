@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Snake</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="layout">
+      <section class="panel">
+        <header>
+          <h1>Snake</h1>
+          <p>Mange les pommes pour grandir. Évite de te mordre.</p>
+        </header>
+        <div class="stats">
+          <div><span>Score</span><strong id="score">0</strong></div>
+          <div><span>Meilleur</span><strong id="best">0</strong></div>
+          <div><span>Vitesse</span><strong id="speed">1.0x</strong></div>
+        </div>
+        <div class="controls">
+          <button id="start">Démarrer</button>
+          <button id="pause" disabled>Pause</button>
+          <button id="reset">Recommencer</button>
+        </div>
+        <div class="hint">
+          <p>Clavier: flèches ou ZQSD. Mobile: balayez.</p>
+        </div>
+      </section>
+      <section class="board">
+        <canvas id="game" width="480" height="480" aria-label="Snake" role="img"></canvas>
+        <div id="overlay" class="overlay hidden">
+          <div class="overlay-card">
+            <h2>Game Over</h2>
+            <p id="final-score"></p>
+            <button id="restart">Rejouer</button>
+          </div>
+        </div>
+      </section>
+    </main>
+    <script src="snake.js"></script>
+  </body>
+</html>
